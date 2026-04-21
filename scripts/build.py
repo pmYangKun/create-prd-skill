@@ -7,17 +7,41 @@ create-prd 技能构建脚本
 2. dist/create-prd.skill               — 编译后的技能包
 """
 
-import os
 import re
 from pathlib import Path
 
 SKILL_DIR = Path(__file__).resolve().parent.parent
 DIST_DIR = SKILL_DIR / "dist"
 REFS_DIR = SKILL_DIR / "references"
+FRAMEWORK_DIR = REFS_DIR / "framework"
+
+FRAMEWORK_FILES = [
+    FRAMEWORK_DIR / "README.md",
+    FRAMEWORK_DIR / "complexity-assessment.md",
+    FRAMEWORK_DIR / "global-checks" / "g1-product-type-fit.md",
+    FRAMEWORK_DIR / "global-checks" / "g2-document-structure.md",
+    FRAMEWORK_DIR / "global-checks" / "g3-major-risks.md",
+    FRAMEWORK_DIR / "chapters" / "ch01-background.md",
+    FRAMEWORK_DIR / "chapters" / "ch02-basic.md",
+    FRAMEWORK_DIR / "chapters" / "ch03-commercial.md",
+    FRAMEWORK_DIR / "chapters" / "ch04-goals.md",
+    FRAMEWORK_DIR / "chapters" / "ch05-overview.md",
+    FRAMEWORK_DIR / "chapters" / "ch06-scope.md",
+    FRAMEWORK_DIR / "chapters" / "ch07-risks.md",
+    FRAMEWORK_DIR / "chapters" / "ch08-09-terms.md",
+    FRAMEWORK_DIR / "chapters" / "ch10-1-framework.md",
+    FRAMEWORK_DIR / "chapters" / "ch10-2-detail.md",
+    FRAMEWORK_DIR / "chapters" / "ch10-3-exception.md",
+    FRAMEWORK_DIR / "chapters" / "ch11-tracking.md",
+    FRAMEWORK_DIR / "chapters" / "ch12-permissions.md",
+    FRAMEWORK_DIR / "chapters" / "ch13-operations.md",
+    FRAMEWORK_DIR / "chapters" / "ch14-tbd.md",
+]
 
 # 文件拼接顺序
 ORDERED_FILES = [
     SKILL_DIR / "SKILL.md",
+    *FRAMEWORK_FILES,
     REFS_DIR / "appendices" / "create-prd-appendix-typing.md",
     REFS_DIR / "chapters" / "create-prd-ch01-background.md",
     REFS_DIR / "chapters" / "create-prd-ch02-basic.md",
@@ -45,6 +69,7 @@ def build_universal_prompt():
     parts.append("> 本文件是 create-prd 技能的完整独立版本，可在任何 LLM 中直接使用。\n")
     parts.append("> 将本文件内容粘贴到 ChatGPT / Gemini / DeepSeek / Claude 等 LLM 中，")
     parts.append("> 然后提供你的业务上下文，即可生成结构化 PRD。\n")
+    parts.append("> 本版本已内联复杂度分级与章节质量基线，无需额外预装 framework 目录。\n")
     parts.append("---\n")
 
     for fpath in ORDERED_FILES:

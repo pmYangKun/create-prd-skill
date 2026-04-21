@@ -18,63 +18,114 @@ description: 根据用户提供的业务上下文，生成结构化的 B端 PRD 
 
 $ARGUMENTS
 
+---
+
+## 质量基线：prd-quality-framework
+
+本 skill 与 `check-prd` 共享一套质量基线——`references/framework/`。
+
+- **complexity-assessment.md**：L1-L4 判定 + 章节适用表 + 产品类型叠加
+- **global-checks/g1-product-type-fit.md**：产品类型契合度
+- **global-checks/g2-document-structure.md**：文档结构完整性（自检）
+- **global-checks/g3-major-risks.md**：重大风险 R1-R8（自检）
+- **chapters/chN-*.md**：每个章节的 L1-L4 质量标准（写作目标）
+
+**加载原则：渐进式**——只在当前阶段加载必要文件，不要预读整个框架。
+
+---
+
 ## 生成流程
 
 严格按以下顺序执行，不可跳过或调换步骤。
 
-### 阶段 0：理解上下文与产品定型
+### 阶段 0：理解上下文 → 产品定型 → 需求分级
 
 1. 完整阅读并理解用户提供的所有业务上下文。
-2. 从用户描述中推断：
+
+2. 加载：
+   - `references/framework/complexity-assessment.md`
+   - `references/framework/global-checks/g1-product-type-fit.md`
+
+3. 从用户描述中推断：
    - **商业属性**：商业化产品 or 企业自研系统
-   - **功能类型**：业务型管理软件 / 工具型软件 / 交易型平台 / 基础服务型
-3. 用一句话向用户呈现推断结果，请求确认：
+   - **功能类型**：业务管理型 / 工具型 / 交易平台型 / 基础服务型
 
-> 根据你的描述，这是一个【{商业属性} × {功能类型}】产品{，简要理由}。我会据此调整 PRD 各章节的侧重点。如有不对请纠正。
+4. 用一句话向用户呈现推断结果，请求确认：
 
-4. 等待用户确认后再继续。
-5. 确认后，加载定型参考文件以确定各章节的适配规则：
+   > 根据你的描述，这是一个【{商业属性} × {功能类型}】产品{，简要理由}。我会据此调整 PRD 各章节的侧重点。如有不对请纠正。
 
-[产品定型与章节适配](references/appendices/create-prd-appendix-typing.md)
+5. 等待用户确认后再继续。
 
-### 阶段 1：前置章节（1-9章）
+6. **需求分级**：按 `complexity-assessment.md §1` 的四步法（先一句话用户视角描述 → 决策树 → 歧义消解 → 辅助信号）判定 L1 / L2 / L3 / L4。
 
-按顺序生成第1至第9章。每完成一章，**立即输出**该章内容，不要等所有章节完成后再一起输出。
+7. 向用户确认需求级别：
 
-每章加载对应的生成指引：
+   > 根据描述，这是一个 **L{X}（{级别名}）** 需求，我会生成 **{体量描述}** 的文档。如需调整深度请告诉我。
 
-1. [第1章 项目背景](references/chapters/create-prd-ch01-background.md)
-2. [第2章 需求基本情况](references/chapters/create-prd-ch02-basic.md)
-3. [第3章 商业分析](references/chapters/create-prd-ch03-commercial.md)
-4. [第4章 项目收益目标](references/chapters/create-prd-ch04-goals.md)
-5. [第5章 项目方案概述](references/chapters/create-prd-ch05-overview.md)
-6. [第6章 项目范围](references/chapters/create-prd-ch06-scope.md)
-7. [第7章 项目风险](references/chapters/create-prd-ch07-risks.md)
-8. [第8-9章 术语与参考文献](references/chapters/create-prd-ch08-09-terms.md)
+8. 等待用户确认。按 `complexity-assessment.md §3` 的章节适用表和 §4 的产品类型叠加规则，确定哪些章节需要生成、各章节深度到哪一层。
 
-### 阶段 2：核心功能需求（第10章）
+---
 
-这是 PRD 中最大、最核心的章节。加载生成指引：
+### 阶段 1：章节生成（按 L 级裁剪）
 
-9. [第10章 功能需求](references/chapters/create-prd-ch10-functions.md)
+对当前 L 级适用的每一章，执行：
 
-按子章节分段生成：
-- 10.1 产品框架概述（系统框架图、数据模型图、业务流程图、状态机图、功能清单）
-- 10.2 产品需求详解（逐模块：流程图 → 页面交互 → 业务规则）
-- 10.3 异常情况处理方案
+**Step 1** — 加载**质量标准**（写作目标）：
+`references/framework/chapters/chN-*.md`
 
-### 阶段 3：后置章节（11-14章）
+**Step 2** — 加载**生成指引**（模板/Mermaid/表格结构）：
+`references/chapters/create-prd-chN-*.md`
 
-10. [第11章 数据埋点](references/chapters/create-prd-ch11-tracking.md)
-11. [第12章 角色和权限](references/chapters/create-prd-ch12-permissions.md)
-12. [第13章 运营计划](references/chapters/create-prd-ch13-operations.md)
-13. [第14章 待决事项](references/chapters/create-prd-ch14-tbd.md)
+**Step 3** — 写该章内容，必须命中 L 级对应的 Must 项，可覆盖 Should 项。写完立即输出。
 
-### 阶段 4：自检与缺口分析
+**Step 4** — 完成该章后不再保留两个文件在上下文，进入下一章。
 
-所有章节生成完毕后，执行轻量自检：
+#### 章节顺序与适用性
 
-14. [自检与待完善清单](references/appendices/create-prd-appendix-selfcheck.md)
+按 `complexity-assessment.md §3` 的章节适用表裁剪。常见映射：
+
+| L 级 | 需要生成的章节 |
+|------|--------------|
+| L1 | 变更说明（可套用 Ch10.2 配置级模板）+ 影响范围（Ch6 轻量）+ TBD |
+| L2 | Ch1(简化)、Ch2(简化)、Ch6(轻量)、Ch10.1(流程图必需)、Ch10.2、Ch10.3、Ch14 |
+| L3 | Ch1、Ch2、Ch6、Ch10.1-10.3、Ch11(可选)、Ch12(变更部分)、Ch13(上线+回滚)、Ch14 |
+| L4 | 全量 Ch1-Ch14 |
+
+**生成指引目录**（与 `prd-quality-framework/chapters/` 一一对应）：
+
+1. Ch1  → `references/chapters/create-prd-ch01-background.md`
+2. Ch2  → `references/chapters/create-prd-ch02-basic.md`
+3. Ch3  → `references/chapters/create-prd-ch03-commercial.md`
+4. Ch4  → `references/chapters/create-prd-ch04-goals.md`
+5. Ch5  → `references/chapters/create-prd-ch05-overview.md`
+6. Ch6  → `references/chapters/create-prd-ch06-scope.md`
+7. Ch7  → `references/chapters/create-prd-ch07-risks.md`
+8. Ch8-9 → `references/chapters/create-prd-ch08-09-terms.md`
+9. Ch10 → `references/chapters/create-prd-ch10-functions.md` (含 10.1/10.2/10.3)
+10. Ch11 → `references/chapters/create-prd-ch11-tracking.md`
+11. Ch12 → `references/chapters/create-prd-ch12-permissions.md`
+12. Ch13 → `references/chapters/create-prd-ch13-operations.md`
+13. Ch14 → `references/chapters/create-prd-ch14-tbd.md`
+
+---
+
+### 阶段 2：自检（L3/L4 必做，L1/L2 跳过）
+
+L3/L4 级别生成完毕后执行轻量自检：
+
+**Step 1** — 加载 `references/framework/global-checks/g2-document-structure.md`，扫描：
+- 章节覆盖是否与 L 级匹配
+- **Ch1→Ch4→Ch10 逻辑链路是否贯通**（最核心）
+- Ch10 内部三块（10.1/10.2/10.3）是否对齐
+- Ch4→Ch11 目标是否都可度量
+- Ch6→Ch12 角色/系统范围是否自洽
+- 术语/角色名是否全文一致
+
+**Step 2** — 加载 `references/framework/global-checks/g3-major-risks.md`，扫描 R1-R8 中的高严重度风险，在文末列出待完善清单。
+
+自检输出写入 PRD 文末的"附：待完善清单"区域。
+
+---
 
 ## 输出规范
 
@@ -110,17 +161,19 @@ $ARGUMENTS
 ---
 
 ## 附：待完善清单
-...
+...（阶段 2 自检输出）
 ```
 
 ### 内容生成规则
 
 1. **有信息则生成实质内容**：根据用户提供的上下文，尽可能生成具体、有实质内容的初稿。
 2. **信息不足则标注 `[TODO]`**：对于用户未提供足够信息的部分，用 `[TODO: 具体需要补充什么]` 标注，而不是编造内容。
-3. **区分产品类型**：商业化产品与企业自研系统的内容侧重点不同，严格按照产品定型结果调整。
-4. **理论框架外显**：在关键章节中，用简短提示说明所使用的方法论框架，帮助用户理解设计依据。
-5. **结构化优先**：表格、列表、Mermaid 图表优先于大段叙述。
-6. **图表使用 Mermaid**：架构图、流程图、状态机、ER 模型等全部使用 Mermaid 代码块生成，不使用 ASCII 伪图。
+3. **按 L 级裁剪**：严格遵守章节适用表，不在低 L 级需求中过度设计。
+4. **按产品类型调整**：商业化产品与企业自研系统的内容侧重点不同。
+5. **质量标准对齐**：每章必须命中 `prd-quality-framework/chapters/chN-*.md` 对应 L 级的 **Must** 项。
+6. **理论框架外显**：在关键章节中，用简短提示说明所使用的方法论框架（格式 `> 💡 方法论提示：`）。
+7. **结构化优先**：表格、列表、Mermaid 图表优先于大段叙述。
+8. **图表使用 Mermaid**：架构图、流程图、状态机、ER 模型等全部使用 Mermaid 代码块生成，不使用 ASCII 伪图。
 
 ### 图表生成规则
 
@@ -130,7 +183,7 @@ $ARGUMENTS
 | --- | --- | --- |
 | 应用架构图 | `graph TB` + `subgraph` 分层 | 用户层、接入层、业务服务层、数据层、外部系统 |
 | ER 数据模型 | `erDiagram` | 所有核心实体+关系+关键属性（PK/FK/状态） |
-| 业务流程图 | `flowchart TD` | 主流程+关键分支+异常路径，关键节点着色 |
+| 业务流程图 | `flowchart TD` 或泳道 | 主流程+关键分支+异常路径 |
 | 状态机图 | `stateDiagram-v2` | 正常+异常路径，附 note 说明约束 |
 
 **注意事项：**
@@ -143,7 +196,6 @@ $ARGUMENTS
 - 每完成一章立即输出，不要等所有章节完成后再一起输出。
 - 每章必须有清晰的章节标题，与 PRD 模板结构一致。
 - 结构化数据（字段、权限、规则等）优先使用表格。
-- 使用 `> 💡 方法论提示：` 引用块来呈现所应用的理论框架。
 - 不确定的内容用 `[TODO]` 标注，并说明需要补充什么信息。
 
 ## 工作风格
@@ -153,3 +205,4 @@ $ARGUMENTS
 - 保持专业的 PRD 写作风格：精确、结构化、无歧义。
 - 根据用户提供的上下文丰富度调整深度——一段话的上下文生成轻量 PRD，详细上下文生成丰富 PRD。
 - 如果用户提供的上下文非常有限，生成结构框架并附带指引说明，主动询问哪些补充信息有助于充实关键章节。
+- **尊重渐进加载**：除非当前阶段需要，不要提前加载框架文件。
