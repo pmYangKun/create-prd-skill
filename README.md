@@ -104,6 +104,31 @@ python scripts/install_skill.py
 
 先 create 生成初稿，自己修改完善，再用 check 做质量审查。**AI 搭骨架 → 人填血肉 → AI 查漏洞**，形成完整的文档工作流。
 
+## 社区贡献
+
+感谢 [@Scofy0123](https://github.com/Scofy0123) 的持续贡献！除了 main 分支的标准版本外，仓库还提供一个**社区扩展分支**供有不同需求的用户选用：
+
+| 分支 | 作者 | 特色 |
+|------|------|------|
+| `main` | 杨堃 | 标准版——给任何业务描述都生成完整 14 章 PRD |
+| [`community/complexity-aware`](https://github.com/pmYangKun/create-prd-skill/tree/community/complexity-aware) | @Scofy0123 扩展 | 复杂度感知版——先判 L1-L4 需求等级，再按等级裁剪章节，**小需求不再被硬写成大而全 PRD** |
+
+社区分支的核心创新是**需求复杂度分级**：
+- **L1（配置级）**：仅写变更说明 + 影响范围
+- **L2（规则级）**：2-3 页轻量文档
+- **L3（模块级）**：5-8 页标准 PRD
+- **L4（系统级）**：完整 14 章 PRD
+
+这让 create-prd 更贴近真实团队的日常工作：配置卡级别的小迭代不会被迫写成大文档，系统级的大需求也不会漏掉关键章节。
+
+切换使用：
+```bash
+git checkout community/complexity-aware
+```
+
+如果你想直接拿到**生成 + 审查 + 飞书协作闭环**的完整工作流，可以看 @Scofy0123 的独立仓库：
+- [`PRD Productivity Toolkit`](https://github.com/Scofy0123/prd-productivity-toolkit)
+
 ## 仓库结构
 
 ```text
