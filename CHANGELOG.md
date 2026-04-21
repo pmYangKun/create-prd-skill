@@ -1,5 +1,15 @@
 # Changelog
 
+## community/complexity-aware 分支本地化（2026-04-18）
+
+将本分支中的英文内容统一汉化，保持文档语言一致性：
+
+- `install.sh` / `install.ps1`：输出提示从英文改为中文（安装提示、使用方式说明）
+- `README.md`：二级标题 "Complexity-Aware PRD Generation" 改为"按需求复杂度自动生成"
+- 保留的英文：专业术语（L1-L4、RBAC、ER、API、SMART、Mermaid 等）、文件名、命令符号
+
+> 说明：本分支托管 @Scofy0123 贡献的复杂度感知扩展版本，与 main 分支独立。
+
 ## v2.1 (2026-04-18)
 
 将共享质量框架快照内置到仓库中，安装后不再依赖外部 `prd-quality-framework` 目录。
