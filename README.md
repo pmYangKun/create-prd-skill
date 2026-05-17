@@ -106,14 +106,18 @@ python scripts/install_skill.py
 
 ## 社区贡献
 
-感谢 [@Scofy0123](https://github.com/Scofy0123) 的持续贡献！除了 main 分支的标准版本外，仓库还提供一个**社区扩展分支**供有不同需求的用户选用：
+感谢社区伙伴持续把 create-prd 推到更多场景里。除了 main 分支的标准版本外，仓库提供以下**社区扩展分支**供有不同需求的用户选用：
 
 | 分支 | 作者 | 特色 |
 |------|------|------|
-| `main` | 杨堃 | 标准版——给任何业务描述都生成完整 14 章 PRD |
-| [`community/complexity-aware`](https://github.com/pmYangKun/create-prd-skill/tree/community/complexity-aware) | @Scofy0123 扩展 | 复杂度感知版——先判 L1-L4 需求等级，再按等级裁剪章节，**小需求不再被硬写成大而全 PRD** |
+| `main` | 杨堃 | 标准版——给任何业务描述都生成完整 14 章 B 端 PRD |
+| [`community/complexity-aware`](https://github.com/pmYangKun/create-prd-skill/tree/community/complexity-aware) | [@Scofy0123](https://github.com/Scofy0123) 扩展 | 复杂度感知版——先判 L1-L4 需求等级，再按等级裁剪章节，**小需求不再被硬写成大而全 PRD** |
+| [`community/c-end-product`](https://github.com/pmYangKun/create-prd-skill/tree/community/c-end-product) | [@s2dongman](https://github.com/s2dongman)（申悦）扩展 | **C 端 PRD 版**——保留阶段化生成、逐章输出、TODO 标注、Mermaid、自检等机制，把 B 端"产品定型 / 商业分析 / 角色权限 / 运营计划 / 功能详解 / 埋点"全套视角换成 C 端用户、增长、转化、漏斗 |
 
-社区分支的核心创新是**需求复杂度分级**：
+### 复杂度感知版（community/complexity-aware）
+
+核心创新是**需求复杂度分级**：
+
 - **L1（配置级）**：仅写变更说明 + 影响范围
 - **L2（规则级）**：2-3 页轻量文档
 - **L3（模块级）**：5-8 页标准 PRD
@@ -125,6 +129,32 @@ python scripts/install_skill.py
 ```bash
 git checkout community/complexity-aware
 ```
+
+### C 端 PRD 版（community/c-end-product）
+
+把整套 prompt 从 B 端业务视角全面改写为 C 端产品视角，保留阶段化生成、逐章输出、TODO 标注、Mermaid 图表、自检清单等机制。主要改造：
+
+- **产品定型**：用 C 端「产品形态 + 商业模式」体系替代 B 端定型
+- **第 1 章 项目背景**：聚焦 C 端用户痛点、市场机会、竞品压力与立项价值
+- **第 2 章 需求基础信息**：新增 C 端用户画像、场景、旅程、需求优先级
+- **第 3 章 商业分析**：B 端客户分析 → C 端市场 / 竞品 / 增长 / 变现 / 差异化定位
+- **第 4 章 项目目标**：B 端业务效率目标 → C 端拉新 / 激活 / 留存 / 转化全维度增长指标
+- **第 5 章 MVP**：B 端"业务闭环" → C 端"最小功能验证用户价值与行为闭环"
+- **第 6 章 项目范围**：聚焦 C 端终端、场景、人群、版本兼容与灰度发布
+- **第 10 章 功能需求**：B 端业务规则 → C 端用户路径、体验、转化与交互细节
+- **第 11 章 数据埋点**：升级为 C 端漏斗、内容消费、裂变、A/B 实验等精细化埋点
+- **第 12 章 权限**：B 端 RBAC → C 端用户身份、权益、行为权限
+- **第 13 章 运营**：B 端客户运营 → C 端用户全生命周期增长运营
+- **数据模型**：按 C 端产品类型差异化建模，弱化 ER
+
+切换使用：
+```bash
+git checkout community/c-end-product
+```
+
+或直接下载 [`dist/create-cprd-universal-prompt.md`](https://github.com/pmYangKun/create-prd-skill/blob/community/c-end-product/dist/create-cprd-universal-prompt.md) 喂给任意大模型。
+
+### 相关独立仓库
 
 如果你想直接拿到**生成 + 审查 + 飞书协作闭环**的完整工作流，可以看 @Scofy0123 的独立仓库：
 - [`PRD Productivity Toolkit`](https://github.com/Scofy0123/prd-productivity-toolkit)
